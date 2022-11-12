@@ -19,12 +19,14 @@ export default function WorkComponent({setCurrentMinutes, setCurrentSeconds, cur
     const subtractMinuteToWork = () => {
         if (paused) {
             var newMinutes = workMinutes - 1;
-            if (!isOnBreak) {
-                setWorkMinutes(newMinutes);
-                setCurrentSeconds(0);
-                setCurrentMinutes(newMinutes);
-            } else {
-                setWorkMinutes(newMinutes);
+            if (newMinutes > 1) {
+                if (!isOnBreak) {
+                    setWorkMinutes(newMinutes);
+                    setCurrentSeconds(0);
+                    setCurrentMinutes(newMinutes);
+                } else {
+                    setWorkMinutes(newMinutes);
+                }
             }
         }
     }

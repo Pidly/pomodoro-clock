@@ -4,9 +4,10 @@ import React from 'react';
 type TimerProps = {
     minutes: number;
     seconds: number;
+    label: string;
 }
 
-export const TimerComponent = ({minutes, seconds}: TimerProps) => {
+export const TimerComponent = ({minutes, seconds, label='Session'}: TimerProps) => {
 
     const getSecondsStr = () => {
         if (seconds < 10) {
@@ -35,7 +36,7 @@ export const TimerComponent = ({minutes, seconds}: TimerProps) => {
             borderRadius: '40px',
             marginTop: '15px'
         }}>
-            <p style={{marginBottom: '0px'}}>Session</p>
+            <p style={{margin: '0px'}}>{label}</p>
             <p style={{fontSize: '60px', margin: '0px'}}>{getMinutesStr()}:{getSecondsStr()}</p>
         </div>
     )
