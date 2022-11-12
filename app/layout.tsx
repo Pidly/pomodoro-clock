@@ -1,12 +1,14 @@
+import '../styles/globals.css';
+
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html style={{height: '100%'}}>
+    <html>
       <head></head>
-      <body style={{backgroundColor: 'black', color: 'white', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <body>
         {children}
       </body>
     </html>
