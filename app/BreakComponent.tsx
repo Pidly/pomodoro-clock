@@ -1,8 +1,9 @@
+'use-client';
 import { TimerStatusUpdater } from "../typings";
 
 export default function BreakComponent({setCurrentMinutes, setCurrentSeconds, currentMinutes, setBreakMinutes, breakMinutes, setWorkMinutes, workMinutes, paused, isOnBreak}: TimerStatusUpdater) {
 
-    
+
     return (
         <div>
             <p>Break Length</p>

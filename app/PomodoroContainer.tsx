@@ -1,13 +1,14 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import BreakComponent from './BreakComponent';
 import WorkComponent from './WorkComponent';
 import { TimerComponent } from './TimerComponent';
-import ControlsComponent from './ControlsComponent';
+import { ControlsComponent } from './ControlsComponent';
 import dayjs from 'dayjs';
 import { isPropertySignature } from 'typescript';
 
 import { TimerStatusUpdater } from '../typings';
+import { debug } from 'console';
 
 export default function PomodoroContainer() {
     const breakLength = 5;
@@ -26,52 +27,43 @@ export default function PomodoroContainer() {
     const [paused, setPaused] = useState(true);
     const [isOnBreak, setIsOnBreak] = useState(false);
 
-    var seconds = () => {
-        if (!paused) {
-            var nowSeconds = dayjs().unix();
-            var endSeconds = 0;
-
-            if (!isOnBreak) {
-                endSeconds = endDate.unix();
-            } else {
-                endSeconds = breakEndDate.unix();
+    useEffect(() => {
+        const interval = setInterval(() => {
+            if (!paused) {
+                updateSeconds();
+                updateMinutes();
             }
+        }, 1000)
 
-            var difference = (endSeconds - nowSeconds) % 60;
-            setCurrentSeconds(difference);
+        return () => clearInterval(interval);
+    }, [paused]);
+
+    var updateSeconds = () => {        
+        var nowSeconds = dayjs().unix();
+        var endSeconds = 0;
+
+        if (!isOnBreak) {
+            endSeconds = endDate.unix();
+        } else {
+            endSeconds = breakEndDate.unix();
         }
+
+        var difference = (endSeconds - nowSeconds) % 60;
+        setCurrentSeconds(difference);
     }
 
-    var minutes = () => {
-        if (!paused) {
-            var nowSeconds = dayjs().unix();
-            var endSeconds = 0;
+    var updateMinutes = () => {
+        var nowSeconds = dayjs().unix();
+        var endSeconds = 0;
 
-            if (!isOnBreak) {
-                endSeconds = endDate.unix();
-            } else {
-                endSeconds = breakEndDate.unix();
-            }
-
-            var minutes = (endSeconds - nowSeconds) / 60;
-            setCurrentMinutes(Math.floor(minutes));
+        if (!isOnBreak) {
+            endSeconds = endDate.unix();
+        } else {
+            endSeconds = breakEndDate.unix();
         }
-    }
 
-    setInterval(seconds, 1000);
-    setInterval(minutes, 1000);
-
-    const addWorkMinute = () => {
-        if (paused) {
-            var newMinutes = workMinutes + 1;
-            if (!isOnBreak) {
-                setWorkMinutes(newMinutes);
-                setCurrentSeconds(0);
-                setCurrentMinutes(newMinutes)
-            } else {
-                setWorkMinutes(newMinutes);
-            }
-        }
+        var minutes = (endSeconds - nowSeconds) / 60;
+        setCurrentMinutes(Math.floor(minutes));
     }
 
     const timerStatusProps = {
@@ -87,6 +79,17 @@ export default function PomodoroContainer() {
     };
 
     //minute, seconds, isPaused, isonbreak, workminutes
+
+    /*
+    Play Button:
+    Set pause, set end date, current minutes/seconds.
+
+    Pause button:
+    Set pause
+
+    Refresh Button:
+    Set pause, set end date, set minutes/seconds.
+    */
     return(
         <div style={{
                 display: 'flex', 
@@ -95,13 +98,12 @@ export default function PomodoroContainer() {
                 flexDirection: 'column'
             }}>
             <h1 style={{marginTop: '0px'}}>Pomodoro Clock</h1>
-            <p>{currentMinutes}:{currentSeconds}</p>
             <div style={{display: 'flex', gap: '60px'}}>
                 <BreakComponent {...timerStatusProps}/>
                 <WorkComponent {...{setCurrentMinutes: setCurrentMinutes, setCurrentSeconds: setCurrentSeconds, currentMinutes: currentMinutes, setBreakMinutes: setBreakMinutes, breakMinutes: breakMinutes, setWorkMinutes: setWorkMinutes, workMinutes: workMinutes, paused: paused, isOnBreak: isOnBreak}}/>
             </div>
             <TimerComponent minutes={currentMinutes} seconds={currentSeconds}/>
-            <ControlsComponent />
+            <ControlsComponent setPaused={setPaused} setEndDate={setEndDate} minutes={currentMinutes} seconds={currentSeconds} paused={paused}/>
         </div>
     )
 }
