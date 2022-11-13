@@ -33,7 +33,7 @@ export default function WorkComponent({setCurrentMinutes, setCurrentSeconds, set
 
     return (
         <div>
-            <p>Work Component</p>
+            <p>Work Length</p>
             <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', userSelect: 'none'}}>
                 <svg
                     onClick={addMinuteToWork}
