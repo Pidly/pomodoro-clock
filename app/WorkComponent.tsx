@@ -1,7 +1,7 @@
 'use-client';
 import { TimerStatusUpdater } from "../typings";
 
-export default function WorkComponent({setCurrentMinutes, setCurrentSeconds, currentMinutes, setBreakMinutes, breakMinutes, setWorkMinutes, workMinutes, paused, isOnBreak}: TimerStatusUpdater) {
+export default function WorkComponent({setCurrentMinutes, setCurrentSeconds, setWorkMinutes, workMinutes, paused, isOnBreak}: TimerStatusUpdater) {
 
     const addMinuteToWork = () => {
         if (paused) {

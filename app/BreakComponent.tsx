@@ -1,7 +1,7 @@
 'use-client';
 import { TimerStatusUpdater } from "../typings";
 
-export default function BreakComponent({setCurrentMinutes, setCurrentSeconds, currentMinutes, setBreakMinutes, breakMinutes, setWorkMinutes, workMinutes, paused, isOnBreak}: TimerStatusUpdater) {
+export default function BreakComponent({setCurrentMinutes, setCurrentSeconds,  setBreakMinutes, breakMinutes, setWorkMinutes, workMinutes, paused, isOnBreak}: TimerStatusUpdater) {
 
     const addMinuteToBreak = () => {
         if (paused) {
