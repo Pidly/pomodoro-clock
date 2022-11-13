@@ -1,5 +1,5 @@
 'use client';
-import { createRef, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import BreakComponent from './BreakComponent';
 import WorkComponent from './WorkComponent';
 import { TimerComponent } from './TimerComponent';
@@ -15,9 +15,7 @@ export default function PomodoroContainer() {
 
     const[label, setLabel] = useState("Work");
 
-    const [nowDate, setNowDate] = useState(dayjs());
     const [endDate, setEndDate] = useState(dayjs().add(workMinutes, 'minute'));
-    const [breakEndDate, setBreakEndDate] = useState(dayjs().add(breakLength, 'minute'));
 
     const [currentSeconds, setCurrentSeconds] = useState<number>(0);
     const [currentMinutes, setCurrentMinutes] = useState<number>(workMinutes);
